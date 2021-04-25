@@ -1,4 +1,4 @@
-# Official Docker Image for Grav
+# Docker Image for Grav with Xdebug
 
 This currently is pretty minimal and uses:
 
@@ -11,6 +11,10 @@ This currently is pretty minimal and uses:
 * php7.4-yaml
 * cron
 * vim editor
+
+In Addition to the official docker-grav, this one also includes xdebug with some utilitys, namely:
+
+* xdebug
 * iputils-ping
 * iproute2
 
@@ -29,15 +33,15 @@ docker build -t grav-xdebug:latest .
 ## Running Grav Image with Latest Grav + Admin:
 
 ```
-docker run -p 80:80 grav-xdebug:latest
+docker run -p 8000:80 grav-xdebug:latest
 ```
 
-Point browser to `http://localhost:80` and create user account...
+Point browser to `http://localhost:8000` and create user account...
 
 ## Running Grav Image with Latest Grav + Admin with a named volume (can be used in production)
 
 ```
-docker run -d -p 80:80 --restart always -v grav_data:/var/www/html grav-xdebug:latest
+docker run -d -p 8000:80 --restart always -v grav-data:/var/www/html grav-xdebug:latest
 ```
 
 ## Running Grav Image with docker-compose and a volume mapped to a local directory
@@ -46,7 +50,7 @@ Running `docker-compose up -d` with the following docker-compose configuration w
 
 ```.yml
 volumes:
-  web:
+  grav-data:
     driver: local
     driver_opts:
       type: none
@@ -58,10 +62,10 @@ services:
       image: grav-xdebug:latest
       container_name: xdebug
       ports:
-          - "80:80"
+          - "8000:80"
       restart: always
       volumes:
-          - ./web:/var/www/html:rw
+          - ./grav-data:/var/www/html:rw
           - ./logs/xdebug:/logs/xdebug
           - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 ```

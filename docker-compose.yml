@@ -1,16 +1,23 @@
 
 ---
 version: "2"
-
+volumes:
+    grav-data:
+      driver: local
+      driver_opts:
+        type: none
+        device: $PWD/grav
+        o: bind
+  
 services:
     docker-grav:
         image: grav-xdebug:latest
         container_name: xdebug
         ports:
-            - "80:80"
+            - "8000:80"
         restart: always
         volumes:
-            - ./web:/var/www/html:rw
+            - ./grav-data:/var/www/html:rw
             - ./logs/xdebug:/logs/xdebug
             - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
         

@@ -8,8 +8,12 @@
             "port": 9000,
             "stopOnEntry": false,
             "pathMappings": {
-                "/var/www/html": "${workspaceFolder}/web"
-            }
+                "/var/www/html/grav/": "${workspaceFolder}/grav-data/grav/"
+            },
+            "ignore": [
+                "**/vendor/**/*.php",
+                "${env:HOME}/.composer/**/*.php"
+            ]
         },
     ]
 }
