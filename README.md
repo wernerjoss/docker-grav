@@ -11,6 +11,8 @@ This currently is pretty minimal and uses:
 * php7.4-yaml
 * cron
 * vim editor
+* iputils-ping
+* iproute2
 
 ## Persisting data
 
@@ -21,21 +23,21 @@ To save the Grav site data to the host file system (so that it persists even aft
 ## Building the image from Dockerfile
 
 ```
-docker build -t grav:latest .
+docker build -t grav-xdebug:latest .
 ```
 
 ## Running Grav Image with Latest Grav + Admin:
 
 ```
-docker run -p 8000:80 grav:latest
+docker run -p 80:80 grav-xdebug:latest
 ```
 
-Point browser to `http://localhost:8000` and create user account...
+Point browser to `http://localhost:80` and create user account...
 
 ## Running Grav Image with Latest Grav + Admin with a named volume (can be used in production)
 
 ```
-docker run -d -p 8000:80 --restart always -v grav_data:/var/www/html grav:latest
+docker run -d -p 80:80 --restart always -v grav_data:/var/www/html grav-xdebug:latest
 ```
 
 ## Running Grav Image with docker-compose and a volume mapped to a local directory
@@ -44,7 +46,7 @@ Running `docker-compose up -d` with the following docker-compose configuration w
 
 ```.yml
 volumes:
-  grav-data:
+  web:
     driver: local
     driver_opts:
       type: none
@@ -52,10 +54,14 @@ volumes:
       o: bind
 
 services:
-  grav:
-    build: ./
-    ports:
-      - 8080:80
-    volumes:
-      - grav-data:/var/www/html
+  docker-grav:
+      image: grav-xdebug:latest
+      container_name: xdebug
+      ports:
+          - "80:80"
+      restart: always
+      volumes:
+          - ./web:/var/www/html:rw
+          - ./logs/xdebug:/logs/xdebug
+          - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 ```
