@@ -1,0 +1,16 @@
+
+---
+version: "2"
+
+services:
+    docker-grav:
+        image: grav-xdebug:latest
+        container_name: xdebug
+        ports:
+            - "80:80"
+        restart: always
+        volumes:
+            - ./web:/var/www/html:rw
+            - ./logs/xdebug:/logs/xdebug
+            - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        

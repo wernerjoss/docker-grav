@@ -47,6 +47,18 @@ RUN pecl install apcu \
     && pecl install yaml-2.0.4 \
     && docker-php-ext-enable apcu yaml
 
+# begin mods for xdebug
+# install xdebug - see https://vladiiancu.com/post/configure-xdebug-3-and-vscode-with-docker/    
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+# Install dependencies needee by entrypoint.sh
+RUN apt-get install -y --no-install-recommends \
+    iputils-ping \
+    iproute2
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+# end mods for xdebug
+
 # Set user to www-data
 RUN chown www-data:www-data /var/www
 USER www-data
@@ -75,4 +87,4 @@ VOLUME ["/var/www/html"]
 
 # ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["apache2-foreground"]
-CMD ["sh", "-c", "cron && apache2-foreground"]
+CMD ["sh", "-c", "entrypoint.sh && cron && apache2-foreground"] # entrypoint.sh must be first !
