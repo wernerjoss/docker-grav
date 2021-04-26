@@ -1,5 +1,9 @@
 # Docker Image for Grav with Xdebug
 
+In Addition to the official Grav Docker Image, this one also includes Xdebug for those who want to make use of a state-of-the-art Debugger for Grav Development.  
+It is still under development, but already works for me - see also [this Article](https://hoernerfranzracing.de/werner/kde-linux-web/tips-and-tricks/docker-grav-xdebug).  
+Hints / Reports / Proposales are welcome.
+
 This currently is pretty minimal and uses:
 
 * apache-2.4.38
@@ -12,7 +16,7 @@ This currently is pretty minimal and uses:
 * cron
 * vim editor
 
-In Addition to the official docker-grav, this one also includes xdebug with some utilitys, namely:
+In Addition, this one also includes xdebug with some utilitys, namely:
 
 * xdebug
 * iputils-ping
