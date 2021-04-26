@@ -2,7 +2,7 @@
 
 In Addition to the official Grav Docker Image, this one also includes Xdebug for those who want to make use of a state-of-the-art Debugger for Grav Development.  
 It is still under development, but already works for me - see also [this Article](https://hoernerfranzracing.de/werner/kde-linux-web/tips-and-tricks/docker-grav-xdebug).  
-Hints / Reports / Proposales are welcome.
+Hints / Reports / Proposals are welcome.
 
 This currently is pretty minimal and uses:
 
@@ -37,15 +37,15 @@ docker build -t grav-xdebug:latest .
 ## Running Grav Image with Latest Grav + Admin:
 
 ```
-docker run -p 8000:80 grav-xdebug:latest
+docker run -p 8080:80 grav-xdebug:latest
 ```
 
-Point browser to `http://localhost:8000` and create user account...
+Point browser to `http://localhost:8080` and create user account...
 
 ## Running Grav Image with Latest Grav + Admin with a named volume (can be used in production)
 
 ```
-docker run -d -p 8000:80 --restart always -v grav-data:/var/www/html grav-xdebug:latest
+docker run -d -p 8080:80 --restart always -v grav-data:/var/www/html grav-xdebug:latest
 ```
 
 ## Running Grav Image with docker-compose and a volume mapped to a local directory
@@ -63,13 +63,17 @@ volumes:
 
 services:
   docker-grav:
+      build: ./
       image: grav-xdebug:latest
-      container_name: xdebug
+      container_name: grav-xdebug
       ports:
-          - "8000:80"
+          - "8080:80"
       restart: always
       volumes:
           - ./grav-data:/var/www/html:rw
           - ./logs/xdebug:/logs/xdebug
           - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 ```
+
+## TODO:
+- make Xdebug inclusion optional at build time, so image with or without Xdebug can be built on request (Default: no Xdebug)
