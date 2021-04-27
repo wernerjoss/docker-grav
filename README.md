@@ -50,29 +50,27 @@ docker run -d -p 8080:80 --restart always -v grav-data:/var/www/html grav-xdebug
 
 ## Running Grav Image with docker-compose and a volume mapped to a local directory
 
-Running `docker-compose up -d` with the following docker-compose configuration will automatically build the Grav image (if the Dockerfile is in the same directory as the docker-compose.yml file). Then the Grav container will be started with all of the site data persisted to a named volume (stored in the `./grav` directory.
+Running `docker-compose up -d` with the following docker-compose configuration will start the Grav container with all of the site data persisted to a named volume grav-data.
 
 ```.yml
 volumes:
-  grav-data:
-    driver: local
-    driver_opts:
-      type: none
-      device: $PWD/grav
-      o: bind
-
+    grav-data:
+      driver: local
+      driver_opts:
+        type: none
+        device: $PWD
+        o: bind
+  
 services:
-  docker-grav:
-      build: ./
-      image: grav-xdebug:latest
-      container_name: grav-xdebug
-      ports:
-          - "8080:80"
-      restart: always
-      volumes:
-          - ./grav-data:/var/www/html:rw
-          - ./logs/xdebug:/logs/xdebug
-          - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    docker-grav:
+        image: grav-xdebug:latest
+        container_name: grav-xdebug
+        ports:
+            - "8080:80"
+        volumes:
+            - ./grav-data:/var/www/html:rw
+            - ./logs/xdebug:/logs/xdebug
+            - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 ```
 
 ## TODO:

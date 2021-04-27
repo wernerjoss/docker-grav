@@ -52,7 +52,7 @@ RUN pecl install apcu \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 # Install dependencies needee by entrypoint.sh
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     iproute2
 COPY entrypoint.sh /usr/bin/entrypoint.sh
