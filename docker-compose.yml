@@ -10,12 +10,10 @@ volumes:
         o: bind
   
 services:
-    docker-grav:
-        image: grav-xdebug:latest
-        container_name: grav-xdebug
+    grav-xdebug:
+        build: ./
         ports:
             - "8080:80"
-        restart: always
         volumes:
             - ./grav-data:/var/www/html:rw
             - ./logs/xdebug:/logs/xdebug
