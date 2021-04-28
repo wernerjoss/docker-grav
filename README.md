@@ -58,7 +58,7 @@ volumes:
       driver: local
       driver_opts:
         type: none
-        device: $PWD
+        device: $PWD/grav
         o: bind
   
 services:
@@ -68,7 +68,7 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - ./grav-data:/var/www/html:rw
+            - ./grav-data/grav:/var/www/html/grav:rw
             - ./logs/xdebug:/logs/xdebug
             - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 ```
