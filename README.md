@@ -9,10 +9,11 @@ This currently is pretty minimal and uses:
 * apache-2.4.38
 * GD library
 * Unzip library
-* php7.4
-* php7.4-opcache
-* php7.4-acpu
-* php7.4-yaml
+* exif library
+* php8.0
+* php8.0-opcache
+* php8.0-acpu
+* php8.0-yaml
 * cron
 * vim editor
 
