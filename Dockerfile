@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
 LABEL maintainer="Andy Miller <rhuk@getgrav.org> (@rhukster)"
 
 # Enable Apache Rewrite + Expires Module
@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install zip \
+    && docker-php-ext-install exif \
     && rm -rf /var/lib/apt/lists/*
 
 # set recommended PHP.ini settings
@@ -43,15 +44,16 @@ RUN { \
     echo 'expose_php=off'; \
     } > /usr/local/etc/php/conf.d/php-recommended.ini
 
+# php 8.0 needs yaml-2.2.0 instead of 2.0.4 for PHP 7.4	WJ 15.01.23
 RUN pecl install apcu \
-    && pecl install yaml-2.0.4 \
+    && pecl install yaml-2.2.0 \
     && docker-php-ext-enable apcu yaml
 
 # begin mods for xdebug
 # install xdebug - see https://vladiiancu.com/post/configure-xdebug-3-and-vscode-with-docker/    
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
-# Install dependencies needee by entrypoint.sh
+# Install dependencies needed by entrypoint.sh
 RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     iproute2
